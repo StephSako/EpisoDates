@@ -1,9 +1,11 @@
-package com.example.episodates;
+package com.example.episodates.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.episodates.R;
+
+public class ChoseSerieActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
