@@ -10,7 +10,7 @@ import retrofit2.http.Query;
  * Liste des différents appels REST
  */
 
-public interface RestInterface {
+public interface RestService {
 
     // Afficher les détail d'une série
     @GET("singlesearch/shows?embed=episodes")

@@ -1,5 +1,6 @@
 package com.example.episodates.view.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,34 +19,62 @@ public class SearchedSerieFragment extends Fragment {
         return new SearchedSerieFragment();
     }
 
-    public TextView TVname, TVgenres, TVwebchannel, TVstatus;
+    public TextView TVname, TVgenres, TVwebchannel, TVstatus, TVNetwork, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage;
 
     private SerieController serieController = new SerieController(this);
 
     public String nameSerie;
 
+    @SuppressLint("CutPasteId")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.searchedseriefragment, container, false);
 
-        this.TVname = v.findViewById(R.id.name);
-        this.TVgenres = v.findViewById(R.id.status);
-        this.TVstatus = v.findViewById(R.id.genres);
-        this.TVwebchannel = v.findViewById(R.id.webchannel);
-
         Bundle bundle = this.getArguments();
-        if (bundle != null) nameSerie = bundle.getString("nameSerie");
+        if (bundle != null){
+            this.TVname = v.findViewById(R.id.name);
+            this.TVgenres = v.findViewById(R.id.genres);
+            this.TVstatus = v.findViewById(R.id.status);
+            this.TVwebchannel = v.findViewById(R.id.webchannel);
+            this.TVTime = v.findViewById(R.id.time);
+            this.TVLanguage = v.findViewById(R.id.language);
+            this.TVNetwork = v.findViewById(R.id.network);
+            this.TVPremiered = v.findViewById(R.id.premiered);
+            this.TVDays = v.findViewById(R.id.days);
+            this.TVAverage = v.findViewById(R.id.average);
 
-        serieController.onCreate(nameSerie);
+            nameSerie = bundle.getString("nameSerie");
+
+            serieController.onCreate(nameSerie);
+        }
+
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     public void displaySerie(Serie serie){
         if (serie != null) {
+            TVname.setText("");
+            TVstatus.setText("");
+            TVwebchannel.setText("");
+            TVgenres.setText("");
+            TVLanguage.setText("");
+            TVPremiered.setText("");
+            TVNetwork.setText("");
+            TVDays.setText("");
+            TVTime.setText("");
+            TVAverage.setText("");
+
+            TVLanguage.setText(serie.getLanguage());
+            TVTime.setText(serie.getSchedule().getTime());
+            TVAverage.setText(Float.toString(serie.getRating().getAverage()));
             TVname.setText(serie.getName());
             TVstatus.setText(serie.getStatus());
-            TVwebchannel.setText(serie.getWebChannel().getName());
+            if (serie.getWebChannel() != null) TVwebchannel.setText(serie.getWebChannel().getName());
+            else TVNetwork.setText(serie.getNetwork().getName());
             TVgenres.setText(serie.getGenres().toString());
+            TVPremiered.setText(serie.getPremiered());
+            TVDays.setText(serie.getSchedule().getDays().toString());
         }
     }
 }

@@ -3,6 +3,8 @@ package com.example.episodates.model.retrofit;
 import android.os.Build;
 import android.util.Log;
 
+import com.example.episodates.model.retrofit.RestService;
+
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,9 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Rest {
     private static final String API_URL = "http://api.tvmaze.com/";
 
-    private static RestInterface service = null;
+    private static RestService service = null;
 
-    public static RestInterface get() {
+    public static RestService get() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -44,7 +46,7 @@ public class Rest {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();
-            service = retrofit.create(RestInterface.class);
+            service = retrofit.create(RestService.class);
         }
 
         return service;

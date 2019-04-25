@@ -1,6 +1,7 @@
 package com.example.episodates.controller;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
@@ -27,7 +28,7 @@ public class SerieController {
                 if (response.isSuccessful()) {
                     Serie serie = response.body();
                     assert serie != null;
-
+                    
                     fragment.displaySerie(serie);
                 }
             }

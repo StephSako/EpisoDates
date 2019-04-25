@@ -5,7 +5,6 @@ import android.text.format.Time;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class Serie {
 
     @SerializedName("premiered")
     @Expose
-    private Date premiered;
+    private String premiered = "";
 
     @SerializedName("officialSite")
     @Expose
@@ -41,18 +40,18 @@ public class Serie {
 
     @SerializedName("schedule")
     @Expose
-    private Schedule schedule = null;
+    private Schedule schedule = new Schedule();
 
     public class Schedule{
         @SerializedName("time")
         @Expose
-        private Time time;
+        private String time;
 
         @SerializedName("days")
         @Expose
         private List<String> days  = Collections.emptyList();
 
-        public Time getTime() {
+        public String getTime() {
             return time;
         }
 
@@ -63,7 +62,7 @@ public class Serie {
 
     @SerializedName("rating")
     @Expose
-    private Rating rating = null;
+    private Rating rating = new Rating();
 
     public class Rating{
         @SerializedName("average")
@@ -77,7 +76,7 @@ public class Serie {
 
     @SerializedName("webChannel")
     @Expose
-    private WebChannel webChannel = null;
+    private WebChannel webChannel = new WebChannel();
 
     public class WebChannel{
         @SerializedName("name")
@@ -89,9 +88,23 @@ public class Serie {
         }
     }
 
+    @SerializedName("network")
+    @Expose
+    private Network network = new Network();
+
+    public class Network{
+        @SerializedName("name")
+        @Expose
+        private String name = "";
+
+        public String getName() {
+            return name;
+        }
+    }
+
     @SerializedName("image")
     @Expose
-    private ImageSerie image = null;
+    private ImageSerie image = new ImageSerie();
 
     public class ImageSerie {
 
@@ -110,7 +123,7 @@ public class Serie {
 
     @SerializedName("_embedded")
     @Expose
-    private _Embedded _embedded = null;
+    private _Embedded _embedded = new _Embedded();
 
     public class _Embedded {
 
@@ -151,7 +164,7 @@ public class Serie {
         return status;
     }
 
-    public Date getPremiered() {
+    public String getPremiered() {
         return premiered;
     }
 
@@ -181,5 +194,9 @@ public class Serie {
 
     public _Embedded get_embedded() {
         return _embedded;
+    }
+
+    public Network getNetwork() {
+        return network;
     }
 }

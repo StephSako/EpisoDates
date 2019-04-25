@@ -25,11 +25,11 @@ public class Episode {
 
     @SerializedName("airdate")
     @Expose
-    private Date airdate;
+    private String airdate = "";
 
     @SerializedName("image")
     @Expose
-    private ImageEpisode imageEpisode = null;
+    private ImageEpisode imageEpisode = new ImageEpisode();
 
     private class ImageEpisode {
 
@@ -62,7 +62,7 @@ public class Episode {
         return number;
     }
 
-    public Date getAirdate() {
+    public String getAirdate() {
         return airdate;
     }
 
