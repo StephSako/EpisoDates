@@ -1,7 +1,13 @@
 package com.example.episodates.model.reponse;
 
+import android.text.format.Time;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.sql.Date;
+import java.util.Collections;
+import java.util.List;
 
 public class Serie {
 
@@ -13,46 +19,140 @@ public class Serie {
     @Expose
     private String name = "";
 
-    @SerializedName("nationality")
+    @SerializedName("language")
     @Expose
-    private String nationality = "";
+    private String language = "";
 
-    @SerializedName("position")
+    @SerializedName("genres")
     @Expose
-    private String position = "";
+    private List<String> genres  = Collections.emptyList();
 
-    @SerializedName("dateOfBirth")
+    @SerializedName("status")
     @Expose
-    private String dateOfBirth = "";
+    private String status = "";
 
-    @SerializedName("shirtNumber")
+    @SerializedName("premiered")
     @Expose
-    private int shirtNumber = -1;
+    private Date premiered;
 
-    @SerializedName("role")
+    @SerializedName("officialSite")
     @Expose
-    private String role = "";
+    private String officialSite = "";
 
-    public String getRole() { return role; }
+    @SerializedName("schedule")
+    @Expose
+    private Schedule schedule = null;
 
-    public String getDateOfBirth() { return dateOfBirth; }
+    private class Schedule{
+        @SerializedName("time")
+        @Expose
+        private Time time;
 
-    public int getId() { return id; }
+        @SerializedName("days")
+        @Expose
+        private List<String> days  = Collections.emptyList();
+    }
+
+    @SerializedName("rating")
+    @Expose
+    private Rating rating = null;
+
+    private class Rating{
+        @SerializedName("average")
+        @Expose
+        private float average;
+    }
+
+    @SerializedName("webChannel")
+    @Expose
+    private WebChannel webChannel = null;
+
+    private class WebChannel{
+        @SerializedName("name")
+        @Expose
+        private String name = null;
+    }
+
+    @SerializedName("image")
+    @Expose
+    private ImageSerie image = null;
+
+    private class ImageSerie {
+
+        @SerializedName("original")
+        @Expose
+        private String original = "";
+    }
+
+    @SerializedName("summary")
+    @Expose
+    private String summary = "";
+
+    @SerializedName("_embedded")
+    @Expose
+    private _Embedded _embedded = null;
+
+    private class _Embedded {
+
+        @SerializedName("original")
+        @Expose
+        private String original = "";
+
+        @SerializedName("episodes")
+        @Expose
+        private List<Episode> episodes  = Collections.emptyList();
+
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getNationality() {
-        return nationality;
+    public String getLanguage() {
+        return language;
     }
 
-    public String getPosition() {
-        return position;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public int getShirtNumber() {
-        return shirtNumber;
+    public String getStatus() {
+        return status;
     }
 
+    public Date getPremiered() {
+        return premiered;
+    }
+
+    public String getOfficialSite() {
+        return officialSite;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public WebChannel getWebChannel() {
+        return webChannel;
+    }
+
+    public ImageSerie getImage() {
+        return image;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public _Embedded get_embedded() {
+        return _embedded;
+    }
 }

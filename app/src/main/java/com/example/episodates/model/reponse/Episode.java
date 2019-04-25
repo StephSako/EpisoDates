@@ -3,6 +3,8 @@ package com.example.episodates.model.reponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.sql.Date;
+
 public class Episode {
 
     @SerializedName("id")
@@ -13,46 +15,58 @@ public class Episode {
     @Expose
     private String name = "";
 
-    @SerializedName("nationality")
+    @SerializedName("season")
     @Expose
-    private String nationality = "";
+    private int season = -1;
 
-    @SerializedName("position")
+    @SerializedName("number")
     @Expose
-    private String position = "";
+    private String number = "";
 
-    @SerializedName("dateOfBirth")
+    @SerializedName("airdate")
     @Expose
-    private String dateOfBirth = "";
+    private Date airdate;
 
-    @SerializedName("shirtNumber")
+    @SerializedName("image")
     @Expose
-    private int shirtNumber = -1;
+    private ImageEpisode image = null;
 
-    @SerializedName("role")
+    private class ImageEpisode {
+
+        @SerializedName("original")
+        @Expose
+        private String original = "";
+    }
+
+    @SerializedName("summary")
     @Expose
-    private String role = "";
+    private String summary = "";
 
-    public String getRole() { return role; }
-
-    public String getDateOfBirth() { return dateOfBirth; }
-
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public String getNationality() {
-        return nationality;
+    public int getSeason() {
+        return season;
     }
 
-    public String getPosition() {
-        return position;
+    public String getNumber() {
+        return number;
     }
 
-    public int getShirtNumber() {
-        return shirtNumber;
+    public Date getAirdate() {
+        return airdate;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
 }

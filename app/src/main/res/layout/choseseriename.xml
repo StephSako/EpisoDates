@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity"
+    android:orientation="vertical"
+    tools:context="com.example.episodates.view.activities.SearchSerieActivity"
+    tools:ignore="ExtraText">
+
+    <EditText
+        android:id="@+id/input_name_serie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:hint="Saisissez le nom d'une série" />
+
+    <FrameLayout
+        android:id="@+id/idFragmentSearchedSerie"
+        android:name="com.example.episodates.view.SearchedSerie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/searchseriefragment" />
+
+</LinearLayout>

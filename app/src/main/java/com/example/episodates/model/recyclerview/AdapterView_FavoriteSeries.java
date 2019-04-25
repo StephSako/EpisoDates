@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.episodates.model.display.DisplayedSerie;
-import com.example.episodates.view.FavoriteSeriesView;
+import com.example.episodates.view.activities.FavoriteSeriesView;
 import com.example.footballapi.R;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class AdapterView_FavoriteSeries extends RecyclerView.Adapter<AdapterView_FavoriteSeries.ViewHolder> {
 
 
-    private List<DisplayedSerie> values;
+    Serie values;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPlayerName;
