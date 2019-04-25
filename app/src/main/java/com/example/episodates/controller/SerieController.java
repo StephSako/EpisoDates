@@ -1,15 +1,10 @@
 package com.example.episodates.controller;
 
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
-import com.example.episodates.model.reponse.Serie;
+import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
-import com.example.episodates.view.activities.SearchSerieActivity;
-import com.example.footballapi.model.model_dao.DataBase;
-import com.example.footballapi.model.model_dao.TeamDAO;
-import com.example.footballapi.model.model_recyclerview.classement.TeamModel;
-import com.example.footballapi.model.model_retrofit.competition.Classement;
+import com.example.episodates.view.fragments.SearchedSerieFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,15 +12,12 @@ import retrofit2.Response;
 
 public class SerieController {
 
-    private SearchSerieActivity activity;
+    private SearchedSerieFragment fragment;
 
-    public SerieController(SearchSerieActivity activity) {
-        this.activity = activity;
+    public SerieController(SearchedSerieFragment activity) {
+        this.fragment = activity;
     }
 
-    /**
-     * Affiche le classement d'une compétition
-     */
     public void onCreate(String name_serie) {
         Call<Serie> call = Rest.get().serie(name_serie);
         call.enqueue(new Callback<Serie>() {
@@ -36,9 +28,7 @@ public class SerieController {
                     Serie serie = response.body();
                     assert serie != null;
 
-                    activity.showList(serie, true);
-                } else {
-                    Toast.makeText(activity, "Le nombre d'appels a été dépassé", Toast.LENGTH_SHORT).show();
+                    fragment.displaySerie(serie);
                 }
             }
 

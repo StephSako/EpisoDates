@@ -1,4 +1,4 @@
-package com.example.episodates.model.reponse;
+package com.example.episodates.model.response;
 
 import android.text.format.Time;
 
@@ -43,7 +43,7 @@ public class Serie {
     @Expose
     private Schedule schedule = null;
 
-    private class Schedule{
+    public class Schedule{
         @SerializedName("time")
         @Expose
         private Time time;
@@ -51,37 +51,57 @@ public class Serie {
         @SerializedName("days")
         @Expose
         private List<String> days  = Collections.emptyList();
+
+        public Time getTime() {
+            return time;
+        }
+
+        public List<String> getDays() {
+            return days;
+        }
     }
 
     @SerializedName("rating")
     @Expose
     private Rating rating = null;
 
-    private class Rating{
+    public class Rating{
         @SerializedName("average")
         @Expose
         private float average;
+
+        public float getAverage() {
+            return average;
+        }
     }
 
     @SerializedName("webChannel")
     @Expose
     private WebChannel webChannel = null;
 
-    private class WebChannel{
+    public class WebChannel{
         @SerializedName("name")
         @Expose
-        private String name = null;
+        private String name = "";
+
+        public String getName() {
+            return name;
+        }
     }
 
     @SerializedName("image")
     @Expose
     private ImageSerie image = null;
 
-    private class ImageSerie {
+    public class ImageSerie {
 
         @SerializedName("original")
         @Expose
         private String original = "";
+
+        public String getOriginal() {
+            return original;
+        }
     }
 
     @SerializedName("summary")
@@ -92,7 +112,7 @@ public class Serie {
     @Expose
     private _Embedded _embedded = null;
 
-    private class _Embedded {
+    public class _Embedded {
 
         @SerializedName("original")
         @Expose
@@ -102,6 +122,13 @@ public class Serie {
         @Expose
         private List<Episode> episodes  = Collections.emptyList();
 
+        public String getOriginal() {
+            return original;
+        }
+
+        public List<Episode> getEpisodes() {
+            return episodes;
+        }
     }
 
     public int getId() {

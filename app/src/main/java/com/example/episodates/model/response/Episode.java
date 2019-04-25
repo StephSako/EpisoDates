@@ -1,4 +1,4 @@
-package com.example.episodates.model.reponse;
+package com.example.episodates.model.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -29,13 +29,17 @@ public class Episode {
 
     @SerializedName("image")
     @Expose
-    private ImageEpisode image = null;
+    private ImageEpisode imageEpisode = null;
 
     private class ImageEpisode {
 
         @SerializedName("original")
         @Expose
         private String original = "";
+
+        public String getOriginal() {
+            return original;
+        }
     }
 
     @SerializedName("summary")
@@ -62,8 +66,8 @@ public class Episode {
         return airdate;
     }
 
-    public Image getImage() {
-        return image;
+    public ImageEpisode getImageEpisode() {
+        return imageEpisode;
     }
 
     public String getSummary() {
