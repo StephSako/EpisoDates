@@ -14,8 +14,6 @@ public class SearchSerieActivity extends AppCompatActivity implements View.OnCli
     public EditText ETNameSerie;
     public Button btnSearchSerie;
 
-    public String nameSerie = "";
-
     Bundle bundle = new Bundle();
 
     @Override
@@ -23,16 +21,16 @@ public class SearchSerieActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.searchseriebynameactivity);
 
-        this.ETNameSerie = findViewById(R.id.input_name_serie);
+        ETNameSerie = findViewById(R.id.input_name_serie);
 
-        this.btnSearchSerie = findViewById(R.id.btnSearchSerie);
+        btnSearchSerie = findViewById(R.id.btnSearchSerie);
         btnSearchSerie.setOnClickListener(this);
     }
 
     public void onClick(View v) {
-        if (v.getId() == R.id.btnSearchSerie && !nameSerie.equals("")) {
+        if (v.getId() == R.id.btnSearchSerie && !ETNameSerie.getText().toString().equals("")) {
             SearchedSerieFragment searchedSerieFragment = SearchedSerieFragment.newInstance();
-            bundle.putString("nameSerie", nameSerie);
+            bundle.putString("nameSerie", ETNameSerie.getText().toString());
             searchedSerieFragment.setArguments(bundle);
 
             getSupportFragmentManager().beginTransaction().add(R.id.searchedSerieFragment, searchedSerieFragment).commit();

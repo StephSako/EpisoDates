@@ -18,8 +18,8 @@ public class SerieController {
         this.fragment = activity;
     }
 
-    public void onCreate(String name_serie) {
-        Call<Serie> call = Rest.get().serie(name_serie);
+    public void onCreate(final String name_serie) {
+        Call<Serie> call = Rest.get().serieDetails(name_serie);
         call.enqueue(new Callback<Serie>() {
 
             @Override
