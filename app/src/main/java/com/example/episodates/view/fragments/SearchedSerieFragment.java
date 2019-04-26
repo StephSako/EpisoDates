@@ -4,14 +4,23 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.episodates.R;
 import com.example.episodates.controller.SerieController;
+import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
+import com.example.episodates.model.recyclerview.AdapterRV_FuturesEpisodes;
+
+import java.util.List;
 
 public class SearchedSerieFragment extends Fragment {
 
@@ -19,7 +28,11 @@ public class SearchedSerieFragment extends Fragment {
         return new SearchedSerieFragment();
     }
 
-    public TextView TVname, TVgenres, TVwebchannel, TVstatus, TVNetwork, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage;
+    public ImageView IVImageSerie;
+    public TextView TVname, TVgenres, TVwebchannel, TVstatus, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage;
+    private RecyclerView rvFuturesEpisodes;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     private SerieController serieController = new SerieController(this);
 
@@ -28,7 +41,7 @@ public class SearchedSerieFragment extends Fragment {
     @SuppressLint("CutPasteId")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.searchedseriefragment, container, false);
+        final View v = inflater.inflate(R.layout.searched_serie_fragment, container, false);
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
@@ -38,10 +51,11 @@ public class SearchedSerieFragment extends Fragment {
             this.TVwebchannel = v.findViewById(R.id.webchannel);
             this.TVTime = v.findViewById(R.id.time);
             this.TVLanguage = v.findViewById(R.id.language);
-            this.TVNetwork = v.findViewById(R.id.network);
             this.TVPremiered = v.findViewById(R.id.premiered);
             this.TVDays = v.findViewById(R.id.days);
             this.TVAverage = v.findViewById(R.id.average);
+            this.rvFuturesEpisodes = v.findViewById(R.id.rvFuturesEpisodes);
+            this.IVImageSerie = v.findViewById(R.id.ivImageSerie);
 
             nameSerie = bundle.getString("nameSerie");
 
@@ -54,13 +68,13 @@ public class SearchedSerieFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     public void displaySerie(Serie serie){
         if (serie != null) {
+            // Clear TextViews
             TVname.setText("");
             TVstatus.setText("");
             TVwebchannel.setText("");
             TVgenres.setText("");
             TVLanguage.setText("");
             TVPremiered.setText("");
-            TVNetwork.setText("");
             TVDays.setText("");
             TVTime.setText("");
             TVAverage.setText("");
@@ -71,10 +85,27 @@ public class SearchedSerieFragment extends Fragment {
             TVname.setText(serie.getName());
             TVstatus.setText(serie.getStatus());
             if (serie.getWebChannel() != null) TVwebchannel.setText(serie.getWebChannel().getName());
-            else TVNetwork.setText(serie.getNetwork().getName());
+            else TVwebchannel.setText(serie.getNetwork().getName());
             TVgenres.setText(serie.getGenres().toString());
             TVPremiered.setText(serie.getPremiered());
             TVDays.setText(serie.getSchedule().getDays().toString());
+
+            Glide.with(this)
+                    .load(serie.getImage().getOriginal())
+                    .apply(new RequestOptions()
+                            .placeholder(R.mipmap.ic_launcher)
+                            .fitCenter())
+                    .into(IVImageSerie);
+        }
+    }
+
+    public void showFuturesEpisodes(List<Episode> futureEpisodes){
+        if (futureEpisodes != null && futureEpisodes.size() > 0) {
+            // Define an adapter
+            layoutManager = new LinearLayoutManager(getContext());
+            rvFuturesEpisodes.setLayoutManager(layoutManager);
+            mAdapter = new AdapterRV_FuturesEpisodes(futureEpisodes, this);
+            rvFuturesEpisodes.setAdapter(mAdapter);
         }
     }
 }

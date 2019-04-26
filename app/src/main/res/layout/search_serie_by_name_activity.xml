@@ -34,6 +34,6 @@
         android:name="com.example.episodates.view.SearchedSerie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/searchedseriefragment" />
+        tools:layout="@layout/searched_serie_fragment" />
 
 </LinearLayout>

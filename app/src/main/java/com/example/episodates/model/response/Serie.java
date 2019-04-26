@@ -127,17 +127,9 @@ public class Serie {
 
     public class _Embedded {
 
-        @SerializedName("original")
-        @Expose
-        private String original = "";
-
         @SerializedName("episodes")
         @Expose
         private List<Episode> episodes  = Collections.emptyList();
-
-        public String getOriginal() {
-            return original;
-        }
 
         public List<Episode> getEpisodes() {
             return episodes;

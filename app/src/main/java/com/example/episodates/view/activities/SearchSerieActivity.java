@@ -20,7 +20,7 @@ public class SearchSerieActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.searchseriebynameactivity);
+        setContentView(R.layout.search_serie_by_name_activity);
 
         ETNameSerie = findViewById(R.id.input_name_serie);
 
