@@ -6,6 +6,8 @@ import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
 import com.example.episodates.view.fragments.SearchedSerieFragment;
 
+import java.util.Collections;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +29,8 @@ public class SerieController {
                 if (response.isSuccessful()) {
                     Serie serie = response.body();
                     assert serie != null;
+
+                    Collections.reverse(serie.get_embedded().getEpisodes());
 
                     fragment.showFuturesEpisodes(serie.get_embedded().getEpisodes());
                     fragment.displaySerie(serie);

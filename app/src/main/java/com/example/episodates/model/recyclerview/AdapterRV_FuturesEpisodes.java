@@ -15,6 +15,9 @@ import com.example.episodates.R;
 import com.example.episodates.model.response.Episode;
 import com.example.episodates.view.fragments.SearchedSerieFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_FuturesEpisodes.ViewHolder> {
@@ -23,7 +26,7 @@ public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_Fu
     private SearchedSerieFragment fragment;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvEpisodeName, tvSeason, tvEpisode, tvSummary;
+        TextView tvDate, tvEpisodeName, tvSeasonEpisode, tvSummary;
         ImageView ivImageEpisode;
 
         View layout;
@@ -32,9 +35,8 @@ public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_Fu
             super(v);
             layout = v;
             tvDate = v.findViewById(R.id.tvDate);
-            tvEpisode = v.findViewById(R.id.tvEpisode);
             tvEpisodeName = v.findViewById(R.id.tvEpisodeName);
-            tvSeason = v.findViewById(R.id.tvSeason);
+            tvSeasonEpisode = v.findViewById(R.id.tvSeasonEpisode);
             ivImageEpisode = v.findViewById(R.id.ivImageEpisode);
             tvSummary = v.findViewById(R.id.tvSummary);
         }
@@ -53,13 +55,17 @@ public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_Fu
         return new ViewHolder(v);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.tvDate.setText(episodes.get(position).getAirdate());
-        holder.tvSeason.setText("Saison " + episodes.get(position).getSeason());
+        DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
+        try {
+            holder.tvDate.setText(dfl.format(new SimpleDateFormat("yyyy-MM-dd").parse(episodes.get(position).getAirdate())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.tvSeasonEpisode.setText("S" + episodes.get(position).getSeason() + " E" + episodes.get(position).getNumber());
         holder.tvEpisodeName.setText(episodes.get(position).getName());
-        holder.tvEpisode.setText("Episode " + episodes.get(position).getNumber());
         holder.tvSummary.setText(episodes.get(position).getSummary());
 
         if (episodes.get(position).getImageEpisode() != null) {

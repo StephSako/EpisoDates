@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -20,6 +21,10 @@ import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.recyclerview.AdapterRV_FuturesEpisodes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class SearchedSerieFragment extends Fragment {
@@ -65,7 +70,7 @@ public class SearchedSerieFragment extends Fragment {
         return v;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     public void displaySerie(Serie serie){
         if (serie != null) {
             // Clear TextViews
@@ -87,7 +92,14 @@ public class SearchedSerieFragment extends Fragment {
             if (serie.getWebChannel() != null) TVwebchannel.setText(serie.getWebChannel().getName());
             else TVwebchannel.setText(serie.getNetwork().getName());
             TVgenres.setText(serie.getGenres().toString());
-            TVPremiered.setText(serie.getPremiered());
+
+            try {
+                DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
+                TVPremiered.setText(dfl.format(new SimpleDateFormat("yyyy-MM-dd").parse(serie.getPremiered())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             TVDays.setText(serie.getSchedule().getDays().toString());
 
             Glide.with(this)
