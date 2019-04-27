@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
-import com.example.episodates.view.fragments.SearchedSerieFragment;
+import com.example.episodates.view.fragments.ResultSerieFragment;
 
 import java.util.Collections;
 
@@ -14,9 +14,9 @@ import retrofit2.Response;
 
 public class SerieController {
 
-    private SearchedSerieFragment fragment;
+    private ResultSerieFragment fragment;
 
-    public SerieController(SearchedSerieFragment activity) {
+    public SerieController(ResultSerieFragment activity) {
         this.fragment = activity;
     }
 

@@ -1,4 +1,4 @@
-package com.example.episodates.model.recyclerview;
+package com.example.episodates.model.adapters;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -13,17 +13,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.episodates.R;
 import com.example.episodates.model.response.Episode;
-import com.example.episodates.view.fragments.SearchedSerieFragment;
+import com.example.episodates.view.fragments.ResultSerieFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_FuturesEpisodes.ViewHolder> {
+public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.ViewHolder> {
 
     private List<Episode> episodes;
-    private SearchedSerieFragment fragment;
+    private ResultSerieFragment fragment;
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate, tvEpisodeName, tvSeasonEpisode, tvSummary;
@@ -42,14 +42,14 @@ public class AdapterRV_FuturesEpisodes extends RecyclerView.Adapter<AdapterRV_Fu
         }
     }
 
-    public AdapterRV_FuturesEpisodes(List<Episode> episodes, SearchedSerieFragment fragment) {
+    public AdapterRV_Episodes(List<Episode> episodes, ResultSerieFragment fragment) {
         this.episodes = episodes;
         this.fragment = fragment;
     }
 
     @NonNull
     @Override
-    public AdapterRV_FuturesEpisodes.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterRV_Episodes.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.row_future_episodes, parent, false);
         return new ViewHolder(v);

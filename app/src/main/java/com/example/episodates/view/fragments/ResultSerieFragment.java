@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,18 +18,17 @@ import com.example.episodates.R;
 import com.example.episodates.controller.SerieController;
 import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
-import com.example.episodates.model.recyclerview.AdapterRV_FuturesEpisodes;
+import com.example.episodates.model.adapters.AdapterRV_Episodes;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-public class SearchedSerieFragment extends Fragment {
+public class ResultSerieFragment extends Fragment {
 
-    public static SearchedSerieFragment newInstance() {
-        return new SearchedSerieFragment();
+    public static ResultSerieFragment newInstance() {
+        return new ResultSerieFragment();
     }
 
     public ImageView IVImageSerie;
@@ -116,7 +114,7 @@ public class SearchedSerieFragment extends Fragment {
             // Define an adapter
             layoutManager = new LinearLayoutManager(getContext());
             rvFuturesEpisodes.setLayoutManager(layoutManager);
-            mAdapter = new AdapterRV_FuturesEpisodes(futureEpisodes, this);
+            mAdapter = new AdapterRV_Episodes(futureEpisodes, this);
             rvFuturesEpisodes.setAdapter(mAdapter);
         }
     }

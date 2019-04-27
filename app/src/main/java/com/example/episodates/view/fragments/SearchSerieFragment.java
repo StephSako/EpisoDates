@@ -1,40 +1,45 @@
-package com.example.episodates.view.activities;
+package com.example.episodates.view.fragments;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.episodates.R;
-import com.example.episodates.view.fragments.SearchedSerieFragment;
 
-public class SearchSerieActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchSerieFragment extends Fragment implements View.OnClickListener {
 
     public EditText ETNameSerie;
     public Button btnSearchSerie;
 
-    SearchedSerieFragment searchedSerieFragment;
+    ResultSerieFragment searchedSerieFragment;
     Bundle bundle = new Bundle();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.search_serie_by_name_activity);
 
-        ETNameSerie = findViewById(R.id.input_name_serie);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.search_serie_fragment, container, false);
 
-        btnSearchSerie = findViewById(R.id.btnSearchSerie);
+        ETNameSerie = v.findViewById(R.id.input_name_serie);
+
+        btnSearchSerie = v.findViewById(R.id.btnSearchSerie);
         btnSearchSerie.setOnClickListener(this);
+
+        return v;
     }
 
     public void onClick(View v) {
         if (v.getId() == R.id.btnSearchSerie && !ETNameSerie.getText().toString().equals("")) {
-            searchedSerieFragment = SearchedSerieFragment.newInstance();
+            searchedSerieFragment = ResultSerieFragment.newInstance();
             bundle.putString("nameSerie", ETNameSerie.getText().toString());
             searchedSerieFragment.setArguments(bundle);
+            ETNameSerie.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.searchedSerieFragment,searchedSerieFragment).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.searchedSerieFragment, searchedSerieFragment).commit();
         }
     }
 
