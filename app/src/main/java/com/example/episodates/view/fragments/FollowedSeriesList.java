@@ -13,7 +13,7 @@ public class FollowedSeriesList extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.searched_serie_fragment, container, false);
+        final View v = inflater.inflate(R.layout.result_serie_fragment, container, false);
 
         return v;
     }

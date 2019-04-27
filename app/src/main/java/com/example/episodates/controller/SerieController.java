@@ -1,12 +1,18 @@
 package com.example.episodates.controller;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
 import com.example.episodates.view.fragments.ResultSerieFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,8 +22,8 @@ public class SerieController {
 
     private ResultSerieFragment fragment;
 
-    public SerieController(ResultSerieFragment activity) {
-        this.fragment = activity;
+    public SerieController(ResultSerieFragment fragment) {
+        this.fragment = fragment;
     }
 
     public void onCreate(final String name_serie) {
@@ -30,10 +36,18 @@ public class SerieController {
                     Serie serie = response.body();
                     assert serie != null;
 
-                    Collections.reverse(serie.get_embedded().getEpisodes());
+                    Date today = new Date();
+                    Date futureDate = null;
+                    for(int i = 0; i < serie.get_embedded().getEpisodes().size(); i++) {
+
+                        if (today.before(serie.get_embedded().getEpisodes().get(i).getAirdate())) {
+                            futureDate = serie.get_embedded().getEpisodes().get(i).getAirdate();
+                            break;
+                        }
+                    }
 
                     fragment.showFuturesEpisodes(serie.get_embedded().getEpisodes());
-                    fragment.displaySerie(serie);
+                    fragment.displaySerie(serie, futureDate);
                 }
             }
 

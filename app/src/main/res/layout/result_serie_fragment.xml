@@ -49,9 +49,8 @@
                     android:textStyle="bold"
                     android:gravity="center"
                     android:padding="4dp"/>
-
                 <TextView
-                    android:id="@+id/status"
+                    android:id="@+id/futureDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"

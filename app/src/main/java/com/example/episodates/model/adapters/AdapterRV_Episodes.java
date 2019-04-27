@@ -1,8 +1,10 @@
 package com.example.episodates.model.adapters;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,14 +61,12 @@ public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-        try {
-            holder.tvDate.setText(dfl.format(new SimpleDateFormat("yyyy-MM-dd").parse(episodes.get(position).getAirdate())));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        holder.tvDate.setText(dfl.format(episodes.get(position).getAirdate()));
         holder.tvSeasonEpisode.setText("S" + episodes.get(position).getSeason() + " E" + episodes.get(position).getNumber());
         holder.tvEpisodeName.setText(episodes.get(position).getName());
-        holder.tvSummary.setText(episodes.get(position).getSummary());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.tvSummary.setText(Html.fromHtml(episodes.get(position).getSummary(), Html.FROM_HTML_MODE_COMPACT));
+        }
 
         if (episodes.get(position).getImageEpisode() != null) {
             Glide.with(fragment)

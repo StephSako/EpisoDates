@@ -21,8 +21,7 @@ import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.adapters.AdapterRV_Episodes;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ResultSerieFragment extends Fragment {
@@ -32,7 +31,7 @@ public class ResultSerieFragment extends Fragment {
     }
 
     public ImageView IVImageSerie;
-    public TextView TVname, TVgenres, TVwebchannel, TVstatus, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage;
+    public TextView TVname, TVgenres, TVwebchannel, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage, TVFutureDate;
     private RecyclerView rvFuturesEpisodes;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -44,13 +43,12 @@ public class ResultSerieFragment extends Fragment {
     @SuppressLint("CutPasteId")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.searched_serie_fragment, container, false);
+        final View v = inflater.inflate(R.layout.result_serie_fragment, container, false);
 
         Bundle bundle = this.getArguments();
         if (bundle != null){
             this.TVname = v.findViewById(R.id.name);
             this.TVgenres = v.findViewById(R.id.genres);
-            this.TVstatus = v.findViewById(R.id.status);
             this.TVwebchannel = v.findViewById(R.id.webchannel);
             this.TVTime = v.findViewById(R.id.time);
             this.TVLanguage = v.findViewById(R.id.language);
@@ -59,6 +57,7 @@ public class ResultSerieFragment extends Fragment {
             this.TVAverage = v.findViewById(R.id.average);
             this.rvFuturesEpisodes = v.findViewById(R.id.rvFuturesEpisodes);
             this.IVImageSerie = v.findViewById(R.id.ivImageSerie);
+            this.TVFutureDate = v.findViewById(R.id.futureDate);
 
             nameSerie = bundle.getString("nameSerie");
 
@@ -69,11 +68,9 @@ public class ResultSerieFragment extends Fragment {
     }
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
-    public void displaySerie(Serie serie){
+    public void displaySerie(Serie serie, Date futureDate){
         if (serie != null) {
-            // Clear TextViews
             TVname.setText("");
-            TVstatus.setText("");
             TVwebchannel.setText("");
             TVgenres.setText("");
             TVLanguage.setText("");
@@ -81,21 +78,23 @@ public class ResultSerieFragment extends Fragment {
             TVDays.setText("");
             TVTime.setText("");
             TVAverage.setText("");
+            TVFutureDate.setText("");
 
             TVLanguage.setText(serie.getLanguage());
             TVTime.setText(serie.getSchedule().getTime());
             TVAverage.setText(Float.toString(serie.getRating().getAverage()));
             TVname.setText(serie.getName());
-            TVstatus.setText(serie.getStatus());
             if (serie.getWebChannel() != null) TVwebchannel.setText(serie.getWebChannel().getName());
             else TVwebchannel.setText(serie.getNetwork().getName());
             TVgenres.setText(serie.getGenres().toString());
 
-            try {
-                DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-                TVPremiered.setText(dfl.format(new SimpleDateFormat("yyyy-MM-dd").parse(serie.getPremiered())));
-            } catch (ParseException e) {
-                e.printStackTrace();
+            DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
+            TVPremiered.setText(dfl.format(serie.getPremiered()));
+
+            if (futureDate != null) TVFutureDate.setText(dfl.format(futureDate));
+            else{
+                if (serie.getStatus().equals("Running")) TVFutureDate.setText("Date non communiquée");
+                else TVFutureDate.setText("Série terminée");
             }
 
             TVDays.setText(serie.getSchedule().getDays().toString());

@@ -3,6 +3,8 @@ package com.example.episodates.model.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Episode {
 
     @SerializedName("id")
@@ -23,7 +25,7 @@ public class Episode {
 
     @SerializedName("airdate")
     @Expose
-    private String airdate = "";
+    private Date airdate = null;
 
     @SerializedName("image")
     @Expose
@@ -60,7 +62,7 @@ public class Episode {
         return number;
     }
 
-    public String getAirdate() {
+    public Date getAirdate() {
         return airdate;
     }
 

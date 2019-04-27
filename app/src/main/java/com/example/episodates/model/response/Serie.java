@@ -6,6 +6,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class Serie {
@@ -32,7 +33,7 @@ public class Serie {
 
     @SerializedName("premiered")
     @Expose
-    private String premiered = "";
+    private Date premiered = null;
 
     @SerializedName("officialSite")
     @Expose
@@ -67,7 +68,7 @@ public class Serie {
     public class Rating{
         @SerializedName("average")
         @Expose
-        private float average;
+        private float average = 0;
 
         public float getAverage() {
             return average;
@@ -156,7 +157,7 @@ public class Serie {
         return status;
     }
 
-    public String getPremiered() {
+    public Date getPremiered() {
         return premiered;
     }
 
