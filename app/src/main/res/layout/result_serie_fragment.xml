@@ -66,14 +66,6 @@
                     android:padding="4dp"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:id="@+id/time"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:padding="4dp"/>
-
-                <TextView
                     android:id="@+id/days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,10 +1,8 @@
 package com.example.episodates.model.adapters;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +12,21 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.episodates.R;
-import com.example.episodates.model.response.Episode;
-import com.example.episodates.view.fragments.ResultSerieFragment;
+import com.example.episodates.model.response.Serie;
+import com.example.episodates.view.fragments.FollowedSeriesList;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.ViewHolder> {
+public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_FollowedSeries.ViewHolder> {
 
-    private List<Episode> episodes;
-    private ResultSerieFragment fragment;
+    private ArrayList<Serie> series;
+    private FollowedSeriesList fragment;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvEpisodeName, tvSeasonEpisode, tvSummary;
-        ImageView ivImageEpisode;
+        TextView tvDate, tvSerieName, tvFutureSeasonEpisode;
+        ImageView ivImageSerie;
 
         View layout;
 
@@ -35,23 +34,22 @@ public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.
             super(v);
             layout = v;
             tvDate = v.findViewById(R.id.tvDate);
-            tvEpisodeName = v.findViewById(R.id.tvEpisodeName);
-            tvSeasonEpisode = v.findViewById(R.id.tvSeasonEpisode);
-            ivImageEpisode = v.findViewById(R.id.ivImageEpisode);
-            tvSummary = v.findViewById(R.id.tvSummary);
+            tvSerieName = v.findViewById(R.id.tvEpisodeName);
+            tvFutureSeasonEpisode = v.findViewById(R.id.tvSeasonEpisode);
+            ivImageSerie = v.findViewById(R.id.ivImageEpisode);
         }
     }
 
-    public AdapterRV_Episodes(List<Episode> episodes, ResultSerieFragment fragment) {
-        this.episodes = episodes;
+    public AdapterRV_FollowedSeries(ArrayList<Serie> series, FollowedSeriesList fragment) {
+        this.series = series;
         this.fragment = fragment;
     }
 
     @NonNull
     @Override
-    public AdapterRV_Episodes.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterRV_FollowedSeries.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.row_future_episodes, parent, false);
+        View v = inflater.inflate(R.layout.row_followed_series, parent, false);
         return new ViewHolder(v);
     }
 
@@ -59,22 +57,18 @@ public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-        holder.tvDate.setText(dfl.format(episodes.get(position).getAirdate()));
-        holder.tvSeasonEpisode.setText("S" + episodes.get(position).getSeason() + " E" + episodes.get(position).getNumber());
-        holder.tvEpisodeName.setText(episodes.get(position).getName());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            holder.tvSummary.setText(Html.fromHtml(episodes.get(position).getSummary(), Html.FROM_HTML_MODE_COMPACT));
-        }
+        holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()));
+        holder.tvFutureSeasonEpisode.setText(series.get(position).getFutureEpisode());
+        holder.tvSerieName.setText(series.get(position).getName());
 
-        if (episodes.get(position).getImageEpisode() != null) {
+        if (series.get(position).getImage() != null) {
             Glide.with(fragment)
-                    .load(episodes.get(position).getImageEpisode().getOriginal())
+                    .load(series.get(position).getImage().getOriginal())
                     .apply(new RequestOptions()
                             .placeholder(R.mipmap.ic_launcher)
                             .fitCenter())
-                    .into(holder.ivImageEpisode);
+                    .into(holder.ivImageSerie);
         }
-
 
         /*holder.itemView.setOnClickListener(new OnClickListener() {
             @Override
@@ -89,7 +83,7 @@ public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.
 
     @Override
     public int getItemCount() {
-        return episodes.size();
+        return series.size();
     }
 
 }

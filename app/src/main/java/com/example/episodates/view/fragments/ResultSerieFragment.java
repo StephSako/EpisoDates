@@ -15,13 +15,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.episodates.R;
-import com.example.episodates.controller.SerieController;
+import com.example.episodates.controller.ResultSerieController;
+import com.example.episodates.model.adapters.AdapterRV_Episodes;
 import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
-import com.example.episodates.model.adapters.AdapterRV_Episodes;
 
 import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class ResultSerieFragment extends Fragment {
@@ -36,7 +35,7 @@ public class ResultSerieFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private SerieController serieController = new SerieController(this);
+    private ResultSerieController serieController = new ResultSerieController(this);
 
     public String nameSerie;
 
@@ -68,7 +67,7 @@ public class ResultSerieFragment extends Fragment {
     }
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
-    public void displaySerie(Serie serie, Date futureDate){
+    public void displaySerie(Serie serie){
         if (serie != null) {
             TVname.setText("");
             TVwebchannel.setText("");
@@ -91,7 +90,7 @@ public class ResultSerieFragment extends Fragment {
             DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
             TVPremiered.setText(dfl.format(serie.getPremiered()));
 
-            if (futureDate != null) TVFutureDate.setText(dfl.format(futureDate));
+            if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()));
             else{
                 if (serie.getStatus().equals("Running")) TVFutureDate.setText("Date non communiquée");
                 else TVFutureDate.setText("Série terminée");

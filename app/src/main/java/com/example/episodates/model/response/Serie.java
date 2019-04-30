@@ -50,7 +50,7 @@ public class Serie {
 
         @SerializedName("days")
         @Expose
-        private List<String> days  = Collections.emptyList();
+        private List<String> days = Collections.emptyList();
 
         public String getTime() {
             return time;
@@ -191,5 +191,27 @@ public class Serie {
 
     public Network getNetwork() {
         return network;
+    }
+
+    public Date getFutureDate(){
+        Date today = new Date();
+        for(int i = 0; i < this.get_embedded().getEpisodes().size(); i++) {
+
+            if (today.before(this.get_embedded().getEpisodes().get(i).getAirdate())) {
+                return this.get_embedded().getEpisodes().get(i).getAirdate();
+            }
+        }
+        return null;
+    }
+
+    public String getFutureEpisode(){
+        Date today = new Date();
+        for(int i = 0; i < this.get_embedded().getEpisodes().size(); i++) {
+
+            if (today.before(this.get_embedded().getEpisodes().get(i).getAirdate())) {
+                return "S" + this.get_embedded().getEpisodes().get(i).getSeason() + "E" + this.get_embedded().getEpisodes().get(i).getNumber();
+            }
+        }
+        return "";
     }
 }
