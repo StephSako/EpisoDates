@@ -3,6 +3,7 @@ package com.example.episodates.controller;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
@@ -19,16 +20,7 @@ import retrofit2.Response;
 
 public class FollowedSeriesController {
 
-    public void save_AL_into_SP(ArrayList<String> list){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.fragment.getContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        editor.putString("followedSeriesList", json);
-        editor.apply();
-    }
-
-    public ArrayList<String> get_AL_into_S(){
+    private ArrayList<String> get_AL_into_S(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.fragment.getContext());
         Gson gson = new Gson();
         String json = prefs.getString("followedSeriesList", null);
@@ -38,28 +30,37 @@ public class FollowedSeriesController {
 
     private FollowedSeriesList fragment;
 
+    private final ArrayList<Serie> followedSeriesControler = new ArrayList<>();
+
     public FollowedSeriesController(FollowedSeriesList fragment) {
         this.fragment = fragment;
     }
 
-    public void onCreate(final String name_serie) {
-        Call<Serie> call = Rest.get().serieDetails(name_serie);
-        call.enqueue(new Callback<Serie>() {
+    public void onCreate() {
 
-            @Override
-            public void onResponse(@NonNull Call<Serie> call, @NonNull Response<Serie> response) {
-                if (response.isSuccessful()) {
-                    Serie serie = response.body();
-                    assert serie != null;
+        for (int i = 0; i < get_AL_into_S().size(); i++) {
 
-                    fragment.addToFollowedSeriesList(serie);
+            Call<Serie> call = Rest.get().serieDetails(get_AL_into_S().get(i));
+            final int finalI = i;
+            call.enqueue(new Callback<Serie>() {
+
+                @Override
+                public void onResponse(@NonNull Call<Serie> call, @NonNull Response<Serie> response) {
+                    if (response.isSuccessful()) {
+                        Serie serie = response.body();
+                        assert serie != null;
+                        followedSeriesControler.add(serie);
+
+                        if (finalI == get_AL_into_S().size()-1){
+                            fragment.showFollowedSeries(followedSeriesControler);
+                        }
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<Serie> call, @NonNull Throwable t) {
+                @Override
+                public void onFailure(@NonNull Call<Serie> call, @NonNull Throwable t) {
 
-                // On affiche le classement récupéré depuis la base de données locale en mode hors ligne
+                    // On affiche le classement récupéré depuis la base de données locale en mode hors ligne
                 /*DataBase database = new DataBase(activity);
                 List<TeamDAO> classementDAO = database.findClassementById(activity.idCompet);
 
@@ -85,7 +86,8 @@ public class FollowedSeriesController {
                     activity.showList(listFinal, false);
                 }
                 Toast.makeText(activity, "Classement non mis à jour.\nVérifiez votre connexion.", Toast.LENGTH_SHORT).show();*/
-            }
-        });
+                }
+            });
+        }
     }
 }

@@ -30,7 +30,7 @@ public class ResultSerieFragment extends Fragment {
     }
 
     public ImageView IVImageSerie;
-    public TextView TVname, TVgenres, TVwebchannel, TVLanguage, TVPremiered, TVTime, TVDays, TVAverage, TVFutureDate;
+    public TextView TVname, TVgenres, TVwebchannel, TVLanguage, TVPremiered, TVDays, TVAverage, TVFutureDate;
     private RecyclerView rvFuturesEpisodes;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -49,7 +49,6 @@ public class ResultSerieFragment extends Fragment {
             this.TVname = v.findViewById(R.id.name);
             this.TVgenres = v.findViewById(R.id.genres);
             this.TVwebchannel = v.findViewById(R.id.webchannel);
-            this.TVTime = v.findViewById(R.id.time);
             this.TVLanguage = v.findViewById(R.id.language);
             this.TVPremiered = v.findViewById(R.id.premiered);
             this.TVDays = v.findViewById(R.id.days);
@@ -75,12 +74,10 @@ public class ResultSerieFragment extends Fragment {
             TVLanguage.setText("");
             TVPremiered.setText("");
             TVDays.setText("");
-            TVTime.setText("");
             TVAverage.setText("");
             TVFutureDate.setText("");
 
             TVLanguage.setText(serie.getLanguage());
-            TVTime.setText(serie.getSchedule().getTime());
             TVAverage.setText(Float.toString(serie.getRating().getAverage()));
             TVname.setText(serie.getName());
             if (serie.getWebChannel() != null) TVwebchannel.setText(serie.getWebChannel().getName());
@@ -90,7 +87,7 @@ public class ResultSerieFragment extends Fragment {
             DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
             TVPremiered.setText(dfl.format(serie.getPremiered()));
 
-            if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()));
+            if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()) + "-" + serie.getSchedule().getTime());
             else{
                 if (serie.getStatus().equals("Running")) TVFutureDate.setText("Date non communiquée");
                 else TVFutureDate.setText("Série terminée");

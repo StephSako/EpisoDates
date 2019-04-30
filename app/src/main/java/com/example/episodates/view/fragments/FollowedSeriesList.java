@@ -15,30 +15,16 @@ import android.widget.Toast;
 
 import com.example.episodates.R;
 import com.example.episodates.controller.FollowedSeriesController;
-import com.example.episodates.controller.ResultSerieController;
-import com.example.episodates.model.adapters.AdapterRV_Episodes;
 import com.example.episodates.model.adapters.AdapterRV_FollowedSeries;
-import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class FollowedSeriesList extends Fragment {
 
     private RecyclerView rvFollowedSeries;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    ArrayList<Serie> followedSerieList = ArrayList<>();
-
-    public static FollowedSeriesList newInstance() {
-        return new FollowedSeriesList();
-    }
 
     private FollowedSeriesController followedSerieController = new FollowedSeriesController(this);
 
@@ -48,42 +34,39 @@ public class FollowedSeriesList extends Fragment {
 
         this.rvFollowedSeries = v.findViewById(R.id.rvFollowedSeries);
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("test");
-        list.add("table");
-        list.add("chaise");
-
-        if (followedSerieController.get_AL_into_S().size() > 0) followedSerieController.onCreate(nameSerie);
-
-        for (Serie serieList : get_AL_into_S()){
-
-        }
-
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-
         Objects.requireNonNull(this.getContext()).getSharedPreferences("followedSeries", Context.MODE_PRIVATE);
 
-        if (followedSerieController.get_AL_into_S().size() > 0) {
-            for (String serieName : followedSerieController.get_AL_into_S()){
-                followedSerieController.onCreate(serieName);
-            }
-            showFollowedSeries();
-        }
+        fillTest();
+
+        followedSerieController.onCreate();
 
         return v;
     }
 
-    public void showFollowedSeries(){
+    public void showFollowedSeries(ArrayList<Serie> followedSerieList){
         if (followedSerieList != null && followedSerieList.size() > 0) {
-            // Define an adapter
-            layoutManager = new LinearLayoutManager(getContext());
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             rvFollowedSeries.setLayoutManager(layoutManager);
-            mAdapter = new AdapterRV_FollowedSeries(followedSerieList, this);
+            RecyclerView.Adapter mAdapter = new AdapterRV_FollowedSeries(followedSerieList, this);
             rvFollowedSeries.setAdapter(mAdapter);
         }
     }
 
-    public void addToFollowedSeriesList(Serie serie){
-        this.followedSerieList.add(serie);
+    public void save_AL_into_SP(ArrayList<String> list){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString("followedSeriesList", json);
+        editor.apply();
+    }
+
+    public void fillTest(){
+        ArrayList<String> listTest = new ArrayList<>();
+        listTest.add("Stranger Things");
+        listTest.add("13 Reasons Why");
+        listTest.add("Black Mirror");
+        listTest.add("Game of Thrones");
+        save_AL_into_SP(listTest);
     }
 }

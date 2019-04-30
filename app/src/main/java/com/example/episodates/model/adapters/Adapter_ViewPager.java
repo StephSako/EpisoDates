@@ -28,7 +28,7 @@ public class Adapter_ViewPager extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position){
-            case 0: return "Followed series";
+            case 0: return "Series followed";
             case 1: return "Search";
             default: return null;
         }

@@ -59,10 +59,12 @@ public class AdapterRV_Episodes extends RecyclerView.Adapter<AdapterRV_Episodes.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-        holder.tvDate.setText(dfl.format(episodes.get(position).getAirdate()));
+
+        if(episodes.get(position).getAirdate() != null) holder.tvDate.setText(dfl.format(episodes.get(position).getAirdate()));
         holder.tvSeasonEpisode.setText("S" + episodes.get(position).getSeason() + " E" + episodes.get(position).getNumber());
         holder.tvEpisodeName.setText(episodes.get(position).getName());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && episodes.get(position).getSummary() != null) {
             holder.tvSummary.setText(Html.fromHtml(episodes.get(position).getSummary(), Html.FROM_HTML_MODE_COMPACT));
         }
 

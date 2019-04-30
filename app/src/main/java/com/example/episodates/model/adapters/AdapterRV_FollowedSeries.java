@@ -57,7 +57,16 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-        holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()));
+
+        if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()));
+        else holder.tvDate.setText("Date non communiquée");
+
+        if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()) + "-" + series.get(position).getSchedule().getTime());
+        else{
+            if (series.get(position).getStatus().equals("Running")) holder.tvDate.setText("Date non communiquée");
+            else holder.tvDate.setText("Série terminée");
+        }
+
         holder.tvFutureSeasonEpisode.setText(series.get(position).getFutureEpisode());
         holder.tvSerieName.setText(series.get(position).getName());
 
