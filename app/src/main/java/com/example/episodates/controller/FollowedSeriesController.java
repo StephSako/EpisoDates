@@ -1,17 +1,11 @@
 package com.example.episodates.controller;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
 import com.example.episodates.view.fragments.FollowedSeriesList;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -19,14 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FollowedSeriesController {
-
-    private ArrayList<String> get_AL_into_S(){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.fragment.getContext());
-        Gson gson = new Gson();
-        String json = prefs.getString("followedSeriesList", null);
-        Type type = new TypeToken<ArrayList<String>>() {}.getType();
-        return gson.fromJson(json, type);
-    }
 
     private FollowedSeriesList fragment;
 
@@ -38,9 +24,9 @@ public class FollowedSeriesController {
 
     public void onCreate() {
 
-        for (int i = 0; i < get_AL_into_S().size(); i++) {
+        for (int i = 0; i < this.fragment.spc.get_AL_into_S(fragment.getActivity()).size(); i++) {
 
-            Call<Serie> call = Rest.get().serieDetails(get_AL_into_S().get(i));
+            Call<Serie> call = Rest.get().serieDetails(this.fragment.spc.get_AL_into_S(fragment.getActivity()).get(i));
             final int finalI = i;
             call.enqueue(new Callback<Serie>() {
 
@@ -51,7 +37,7 @@ public class FollowedSeriesController {
                         assert serie != null;
                         followedSeriesControler.add(serie);
 
-                        if (finalI == get_AL_into_S().size()-1){
+                        if (finalI == fragment.spc.get_AL_into_S(fragment.getActivity()).size()-1){
                             fragment.showFollowedSeries(followedSeriesControler);
                         }
                     }

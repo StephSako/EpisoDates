@@ -61,7 +61,7 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
         if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()));
         else holder.tvDate.setText("Date non communiquée");
 
-        if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()) + "-" + series.get(position).getSchedule().getTime());
+        if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()) + " " + series.get(position).getSchedule().getTime());
         else{
             if (series.get(position).getStatus().equals("Running")) holder.tvDate.setText("Date non communiquée");
             else holder.tvDate.setText("Série terminée");

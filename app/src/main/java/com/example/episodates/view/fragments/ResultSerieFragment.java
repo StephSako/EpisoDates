@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.episodates.R;
 import com.example.episodates.controller.ResultSerieController;
+import com.example.episodates.controller.SharedPreferencesController;
 import com.example.episodates.model.adapters.AdapterRV_Episodes;
 import com.example.episodates.model.response.Episode;
 import com.example.episodates.model.response.Serie;
@@ -23,21 +25,28 @@ import com.example.episodates.model.response.Serie;
 import java.text.DateFormat;
 import java.util.List;
 
-public class ResultSerieFragment extends Fragment {
+public class ResultSerieFragment extends Fragment implements View.OnClickListener {
 
     public static ResultSerieFragment newInstance() {
         return new ResultSerieFragment();
     }
 
+    public SharedPreferencesController spc = new SharedPreferencesController();
+
     public ImageView IVImageSerie;
     public TextView TVname, TVgenres, TVwebchannel, TVLanguage, TVPremiered, TVDays, TVAverage, TVFutureDate;
+    public ImageButton btnAdd;
     private RecyclerView rvFuturesEpisodes;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private ResultSerieController serieController = new ResultSerieController(this);
 
-    public String nameSerie;
+    private String nameSerie;
+
+    public void setNameSerie(String nameSerie){
+        this.nameSerie = nameSerie;
+    }
 
     @SuppressLint("CutPasteId")
     @Override
@@ -57,9 +66,10 @@ public class ResultSerieFragment extends Fragment {
             this.IVImageSerie = v.findViewById(R.id.ivImageSerie);
             this.TVFutureDate = v.findViewById(R.id.futureDate);
 
-            nameSerie = bundle.getString("nameSerie");
+            this.btnAdd = v.findViewById(R.id.btnAdd);
+            this.btnAdd.setOnClickListener(this);
 
-            serieController.onCreate(nameSerie);
+            serieController.onCreate(bundle.getString("nameSerie"));
         }
 
         return v;
@@ -87,7 +97,7 @@ public class ResultSerieFragment extends Fragment {
             DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
             TVPremiered.setText(dfl.format(serie.getPremiered()));
 
-            if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()) + "-" + serie.getSchedule().getTime());
+            if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()) + " " + serie.getSchedule().getTime());
             else{
                 if (serie.getStatus().equals("Running")) TVFutureDate.setText("Date non communiquée");
                 else TVFutureDate.setText("Série terminée");
@@ -106,11 +116,24 @@ public class ResultSerieFragment extends Fragment {
 
     public void showFuturesEpisodes(List<Episode> futureEpisodes){
         if (futureEpisodes != null && futureEpisodes.size() > 0) {
-            // Define an adapter
             layoutManager = new LinearLayoutManager(getContext());
             rvFuturesEpisodes.setLayoutManager(layoutManager);
             mAdapter = new AdapterRV_Episodes(futureEpisodes, this);
             rvFuturesEpisodes.setAdapter(mAdapter);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnAdd){
+            if (!spc.get_AL_into_S(this.getActivity()).contains(nameSerie)) {
+                spc.addNameSerieIntoSP(nameSerie, this.getActivity());
+                btnAdd.setImageResource(R.mipmap.ic_unlike_foreground);
+            }
+            else{
+                spc.deleteNameSerieIntoSP(nameSerie, this.getActivity());
+                btnAdd.setImageResource(R.mipmap.ic_like_foreground);
+            }
         }
     }
 }

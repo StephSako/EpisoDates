@@ -28,6 +28,7 @@ public class ResultSerieController {
                     Serie serie = response.body();
                     assert serie != null;
 
+                    fragment.setNameSerie(serie.getName());
                     fragment.showFuturesEpisodes(serie.get_embedded().getEpisodes());
                     fragment.displaySerie(serie);
                 }

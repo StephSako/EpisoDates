@@ -1,9 +1,7 @@
 package com.example.episodates.view.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.episodates.R;
 import com.example.episodates.controller.FollowedSeriesController;
+import com.example.episodates.controller.SharedPreferencesController;
 import com.example.episodates.model.adapters.AdapterRV_FollowedSeries;
 import com.example.episodates.model.response.Serie;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -25,6 +22,8 @@ import java.util.Objects;
 public class FollowedSeriesList extends Fragment {
 
     private RecyclerView rvFollowedSeries;
+
+    public SharedPreferencesController spc = new SharedPreferencesController();
 
     private FollowedSeriesController followedSerieController = new FollowedSeriesController(this);
 
@@ -52,21 +51,12 @@ public class FollowedSeriesList extends Fragment {
         }
     }
 
-    public void save_AL_into_SP(ArrayList<String> list){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        editor.putString("followedSeriesList", json);
-        editor.apply();
-    }
-
     public void fillTest(){
         ArrayList<String> listTest = new ArrayList<>();
         listTest.add("Stranger Things");
         listTest.add("13 Reasons Why");
         listTest.add("Black Mirror");
         listTest.add("Game of Thrones");
-        save_AL_into_SP(listTest);
+        spc.save_AL_into_SP(listTest, this.getActivity());
     }
 }

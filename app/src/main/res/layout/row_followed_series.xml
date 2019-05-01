@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@drawable/border"
-    android:layout_margin="4dp"
+    android:layout_margin="8dp"
     android:layout_height="wrap_content" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:background="@drawable/degradeheaders"
         android:layout_weight="1">
 
         <TextView
@@ -20,10 +21,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
+            android:textSize="20sp"
             android:padding="4dp"
             android:textStyle="bold"
             android:text="The Battle of Starcourt"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             tools:ignore="NestedWeights" />
 
         <TextView
@@ -32,8 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:text="S2 E5"
             android:padding="4dp"
             tools:ignore="NestedWeights" />
@@ -49,20 +52,21 @@
         <ImageView
             android:id="@+id/ivImageEpisode"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:contentDescription="Image de la série"
-            android:gravity="center" />
+            android:layout_height="150dp"
+            android:contentDescription="Image de la série" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"
-                android:textColor="@color/black"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="2018-02-29" />
