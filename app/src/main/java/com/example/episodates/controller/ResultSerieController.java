@@ -2,6 +2,7 @@ package com.example.episodates.controller;
 
 import android.support.annotation.NonNull;
 
+import com.example.episodates.R;
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
 import com.example.episodates.view.fragments.ResultSerieFragment;
@@ -18,7 +19,7 @@ public class ResultSerieController {
         this.fragment = fragment;
     }
 
-    public void onCreate(final String name_serie) {
+    public void getSerie(final String name_serie) {
         Call<Serie> call = Rest.get().serieDetails(name_serie);
         call.enqueue(new Callback<Serie>() {
 
@@ -29,6 +30,14 @@ public class ResultSerieController {
                     assert serie != null;
 
                     fragment.setNameSerie(serie.getName());
+
+                    if (!fragment.spc.get_AL_into_S(fragment.getActivity()).contains(serie.getName())) {
+                        fragment.btnAdd.setImageResource(R.mipmap.ic_like_foreground);
+                    }
+                    else{
+                        fragment.btnAdd.setImageResource(R.mipmap.ic_unlike_foreground);
+                    }
+
                     fragment.showFuturesEpisodes(serie.get_embedded().getEpisodes());
                     fragment.displaySerie(serie);
                 }

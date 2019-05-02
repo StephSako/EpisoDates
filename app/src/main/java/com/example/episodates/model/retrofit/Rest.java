@@ -3,8 +3,6 @@ package com.example.episodates.model.retrofit;
 import android.os.Build;
 import android.util.Log;
 
-import com.example.episodates.model.retrofit.RestService;
-
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;

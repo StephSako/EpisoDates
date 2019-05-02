@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -37,8 +39,6 @@ public class ResultSerieFragment extends Fragment implements View.OnClickListene
     public TextView TVname, TVgenres, TVwebchannel, TVLanguage, TVPremiered, TVDays, TVAverage, TVFutureDate;
     public ImageButton btnAdd;
     private RecyclerView rvFuturesEpisodes;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
 
     private ResultSerieController serieController = new ResultSerieController(this);
 
@@ -69,7 +69,7 @@ public class ResultSerieFragment extends Fragment implements View.OnClickListene
             this.btnAdd = v.findViewById(R.id.btnAdd);
             this.btnAdd.setOnClickListener(this);
 
-            serieController.onCreate(bundle.getString("nameSerie"));
+            serieController.getSerie(bundle.getString("nameSerie"));
         }
 
         return v;
@@ -95,7 +95,8 @@ public class ResultSerieFragment extends Fragment implements View.OnClickListene
             TVgenres.setText(serie.getGenres().toString());
 
             DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
-            TVPremiered.setText(dfl.format(serie.getPremiered()));
+            if (serie.getPremiered() != null) TVPremiered.setText(dfl.format(serie.getPremiered()));
+            else TVPremiered.setText("Première non renseignée");
 
             if (serie.getFutureDate() != null) TVFutureDate.setText(dfl.format(serie.getFutureDate()) + " " + serie.getSchedule().getTime());
             else{
@@ -116,9 +117,9 @@ public class ResultSerieFragment extends Fragment implements View.OnClickListene
 
     public void showFuturesEpisodes(List<Episode> futureEpisodes){
         if (futureEpisodes != null && futureEpisodes.size() > 0) {
-            layoutManager = new LinearLayoutManager(getContext());
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             rvFuturesEpisodes.setLayoutManager(layoutManager);
-            mAdapter = new AdapterRV_Episodes(futureEpisodes, this);
+            RecyclerView.Adapter mAdapter = new AdapterRV_Episodes(futureEpisodes, this);
             rvFuturesEpisodes.setAdapter(mAdapter);
         }
     }

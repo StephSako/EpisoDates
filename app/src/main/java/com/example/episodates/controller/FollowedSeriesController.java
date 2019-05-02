@@ -1,6 +1,7 @@
 package com.example.episodates.controller;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
@@ -24,6 +25,8 @@ public class FollowedSeriesController {
 
     public void onCreate() {
 
+        followedSeriesControler.removeAll(followedSeriesControler);
+
         for (int i = 0; i < this.fragment.spc.get_AL_into_S(fragment.getActivity()).size(); i++) {
 
             Call<Serie> call = Rest.get().serieDetails(this.fragment.spc.get_AL_into_S(fragment.getActivity()).get(i));
@@ -38,6 +41,7 @@ public class FollowedSeriesController {
                         followedSeriesControler.add(serie);
 
                         if (finalI == fragment.spc.get_AL_into_S(fragment.getActivity()).size()-1){
+                            Toast.makeText(fragment.getContext(), fragment.spc.get_AL_into_S(fragment.getActivity()).toString(), Toast.LENGTH_SHORT).show();
                             fragment.showFollowedSeries(followedSeriesControler);
                         }
                     }

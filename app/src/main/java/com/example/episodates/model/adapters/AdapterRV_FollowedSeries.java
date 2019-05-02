@@ -17,7 +17,6 @@ import com.example.episodates.view.fragments.FollowedSeriesList;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_FollowedSeries.ViewHolder> {
 

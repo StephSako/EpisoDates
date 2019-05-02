@@ -1,7 +1,5 @@
 package com.example.episodates.model.response;
 
-import android.text.format.Time;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -46,7 +44,7 @@ public class Serie {
     public class Schedule{
         @SerializedName("time")
         @Expose
-        private String time;
+        private String time = "";
 
         @SerializedName("days")
         @Expose

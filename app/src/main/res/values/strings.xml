@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EpisoDates</string>
+    <string name="add_serie_to_favorites">Add serie to favorites</string>
+    <string name="serie_s_image">Serie\'s image</string>
 </resources>

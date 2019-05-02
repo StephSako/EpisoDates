@@ -21,10 +21,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:padding="4dp"
             android:textStyle="bold"
-            android:text="The Battle of Starcourt"
             android:textColor="@color/white"
             tools:ignore="NestedWeights" />
 
@@ -36,8 +35,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:text="S2 E5"
+            android:textSize="16sp"
             android:padding="4dp"
             tools:ignore="NestedWeights" />
 
@@ -51,9 +49,9 @@
 
         <ImageView
             android:id="@+id/ivImageEpisode"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:contentDescription="Image de la série" />
+            android:layout_width="60dp"
+            android:layout_height="110dp"
+            android:contentDescription="Serie's image" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,11 +63,10 @@
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="@color/black"
                 android:gravity="center"
-                android:padding="4dp"
-                android:text="2018-02-29" />
+                android:padding="4dp" />
 
         </LinearLayout>
     </LinearLayout>

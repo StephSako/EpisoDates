@@ -1,14 +1,16 @@
 package com.example.episodates.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.episodates.R;
 import com.example.episodates.controller.FollowedSeriesController;
@@ -17,46 +19,61 @@ import com.example.episodates.model.adapters.AdapterRV_FollowedSeries;
 import com.example.episodates.model.response.Serie;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class FollowedSeriesList extends Fragment {
+public class FollowedSeriesList extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private RecyclerView rvFollowedSeries;
+    public RecyclerView.LayoutManager layoutManager;
+    public RecyclerView.Adapter mAdapter;
 
     public SharedPreferencesController spc = new SharedPreferencesController();
 
     private FollowedSeriesController followedSerieController = new FollowedSeriesController(this);
 
+    public SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.followed_series_list, container, false);
 
+        setHasOptionsMenu(true);
+
         this.rvFollowedSeries = v.findViewById(R.id.rvFollowedSeries);
-
-        Objects.requireNonNull(this.getContext()).getSharedPreferences("followedSeries", Context.MODE_PRIVATE);
-
-        fillTest();
+        mSwipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         followedSerieController.onCreate();
+
+        //Objects.requireNonNull(this.getContext()).getSharedPreferences("followedSeries", Context.MODE_PRIVATE);
 
         return v;
     }
 
     public void showFollowedSeries(ArrayList<Serie> followedSerieList){
         if (followedSerieList != null && followedSerieList.size() > 0) {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager = new LinearLayoutManager(getContext());
             rvFollowedSeries.setLayoutManager(layoutManager);
-            RecyclerView.Adapter mAdapter = new AdapterRV_FollowedSeries(followedSerieList, this);
+            mAdapter = new AdapterRV_FollowedSeries(followedSerieList, this);
             rvFollowedSeries.setAdapter(mAdapter);
         }
     }
 
-    public void fillTest(){
-        ArrayList<String> listTest = new ArrayList<>();
-        listTest.add("Stranger Things");
-        listTest.add("13 Reasons Why");
-        listTest.add("Black Mirror");
-        listTest.add("Game of Thrones");
-        spc.save_AL_into_SP(listTest, this.getActivity());
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        followedSerieController.onCreate();
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    // Écouteur sur le menu
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.refresh) {
+            Toast.makeText(this.getContext(), "Refresh", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

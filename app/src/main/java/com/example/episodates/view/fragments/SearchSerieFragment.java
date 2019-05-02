@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +26,8 @@ public class SearchSerieFragment extends Fragment implements View.OnClickListene
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.search_serie_fragment, container, false);
 
+        setHasOptionsMenu(true);
+
         ETNameSerie = v.findViewById(R.id.input_name_serie);
 
         btnSearchSerie = v.findViewById(R.id.btnSearchSerie);
@@ -43,25 +47,9 @@ public class SearchSerieFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    // Affichage du menu
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    // Écouteur sur le menu
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // L’item sur lequel l’utilisateur a cliqué
-        int id = item.getItemId();
-        // Afficher le fragment des préférences
-        if (id == R.id.pref) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+    }
 }
