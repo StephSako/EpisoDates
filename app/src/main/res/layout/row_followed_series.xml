@@ -51,6 +51,7 @@
             android:id="@+id/ivImageEpisode"
             android:layout_width="60dp"
             android:layout_height="110dp"
+            android:layout_marginLeft="20dp"
             android:contentDescription="Serie's image" />
 
         <LinearLayout
@@ -59,6 +60,15 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
+            <ImageButton
+                android:layout_gravity="right"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="-20dp"
+                android:id="@+id/btnRemoveToFavorites"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/ic_unlike_foreground"
+                android:contentDescription="@string/add_serie_to_favorites" />
             <TextView
                 android:id="@+id/tvDate"
                 android:layout_width="match_parent"

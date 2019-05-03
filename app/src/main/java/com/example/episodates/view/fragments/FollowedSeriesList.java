@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.episodates.R;
 import com.example.episodates.controller.FollowedSeriesController;
@@ -42,9 +41,7 @@ public class FollowedSeriesList extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        followedSerieController.onCreate();
-
-        //Objects.requireNonNull(this.getContext()).getSharedPreferences("followedSeries", Context.MODE_PRIVATE);
+        followedSerieController.getSeries();
 
         return v;
     }
@@ -61,7 +58,7 @@ public class FollowedSeriesList extends Fragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
-        followedSerieController.onCreate();
+        followedSerieController.getSeries();
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
@@ -70,7 +67,10 @@ public class FollowedSeriesList extends Fragment implements SwipeRefreshLayout.O
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.refresh) {
-            Toast.makeText(this.getContext(), "Refresh", Toast.LENGTH_SHORT).show();
+            mSwipeRefreshLayout.setRefreshing(true);
+            followedSerieController.getSeries();
+            //mAdapter.notifyDataSetChanged();
+            mSwipeRefreshLayout.setRefreshing(false);
             return true;
         }
 

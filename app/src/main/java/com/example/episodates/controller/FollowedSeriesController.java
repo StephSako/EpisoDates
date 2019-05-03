@@ -1,7 +1,7 @@
 package com.example.episodates.controller;
 
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.example.episodates.model.response.Serie;
 import com.example.episodates.model.retrofit.Rest;
@@ -17,17 +17,15 @@ public class FollowedSeriesController {
 
     private FollowedSeriesList fragment;
 
-    private final ArrayList<Serie> followedSeriesControler = new ArrayList<>();
-
     public FollowedSeriesController(FollowedSeriesList fragment) {
         this.fragment = fragment;
     }
 
-    public void onCreate() {
+    public void getSeries() {
 
-        followedSeriesControler.removeAll(followedSeriesControler);
-
+        final ArrayList<Serie> followedSeries = new ArrayList<>();
         for (int i = 0; i < this.fragment.spc.get_AL_into_S(fragment.getActivity()).size(); i++) {
+            SystemClock.sleep(75);
 
             Call<Serie> call = Rest.get().serieDetails(this.fragment.spc.get_AL_into_S(fragment.getActivity()).get(i));
             final int finalI = i;
@@ -38,11 +36,10 @@ public class FollowedSeriesController {
                     if (response.isSuccessful()) {
                         Serie serie = response.body();
                         assert serie != null;
-                        followedSeriesControler.add(serie);
+                        followedSeries.add(serie);
 
                         if (finalI == fragment.spc.get_AL_into_S(fragment.getActivity()).size()-1){
-                            Toast.makeText(fragment.getContext(), fragment.spc.get_AL_into_S(fragment.getActivity()).toString(), Toast.LENGTH_SHORT).show();
-                            fragment.showFollowedSeries(followedSeriesControler);
+                            fragment.showFollowedSeries(followedSeries);
                         }
                     }
                 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate, tvSerieName, tvFutureSeasonEpisode;
         ImageView ivImageSerie;
+        ImageButton ibRemoveToFavorites;
 
         View layout;
 
@@ -36,6 +38,7 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
             tvSerieName = v.findViewById(R.id.tvEpisodeName);
             tvFutureSeasonEpisode = v.findViewById(R.id.tvSeasonEpisode);
             ivImageSerie = v.findViewById(R.id.ivImageEpisode);
+            ibRemoveToFavorites = v.findViewById(R.id.btnRemoveToFavorites);
         }
     }
 
@@ -54,7 +57,7 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         DateFormat dfl = DateFormat.getDateInstance(DateFormat.FULL);
 
         if (series.get(position).getFutureDate() != null) holder.tvDate.setText(dfl.format(series.get(position).getFutureDate()));
@@ -78,15 +81,20 @@ public class AdapterRV_FollowedSeries extends RecyclerView.Adapter<AdapterRV_Fol
                     .into(holder.ivImageSerie);
         }
 
-        /*holder.itemView.setOnClickListener(new OnClickListener() {
+        holder.ibRemoveToFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, TeamActivity.class);
-                intent.putExtra(CLE_DONNEES_ID_TEAM, Integer.parseInt(values.get(position).getIdTeam()));
-                context.startActivity(intent);
+                fragment.spc.deleteNameSerieIntoSP(series.get(position).getName(), fragment.getActivity());
+                remove(holder.getAdapterPosition());
             }
-        });*/
+        });
+    }
+
+    private void remove(int position) {
+        series.remove(position);
+        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, series.size());
     }
 
     @Override
